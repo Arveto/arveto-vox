@@ -1,7 +1,7 @@
 {
     "name": "arveto-vox",
     "version": "1.0.0",
-    "description": "Open source journalism website with Node backend (school project).",
+    "description": "Open source journalism website (school project).",
     "bugs": "none =)",
     "license": "GPU",
     "repository": "https://github.com/Arveto/arveto-vox",
