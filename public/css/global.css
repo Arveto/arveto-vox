@@ -1,0 +1,113 @@
+html, body{
+    font-family: 'Roboto Slab', serif;
+    margin: 0;
+    color: rgb(52, 52, 52);
+    height: 100%;
+    margin: 0pt;
+}
+
+@font-face {
+ font-family: "Old London";
+ src: url("../fonts/OldLondon.woff") format("woff");
+}
+
+header{
+    background-color: rgb(52, 52, 52);
+    top: 0;
+    width: 100%;
+}
+
+#content{
+    height:auto;
+}
+
+#banner{
+    display: flex;
+    justify-content: flex-start;
+}
+
+#logo{
+    width:auto;
+    height: 140px;
+
+    -webkit-filter: drop-shadow(3px 3px 0 white)
+                    drop-shadow(-3px -3px 0 white);
+    filter: drop-shadow(3px 3px 0 white)
+            drop-shadow(-3px -3px 0 white);
+
+    margin-top: 10px;
+    margin-left: 2%;
+    margin-right: 5%;
+}
+
+#slogan{
+    color: white;
+    font-size: 27px;
+    margin-top: 84px;
+}
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 5px solid rgb(152, 193, 41);
+    font-size: 18px;
+}
+
+#categories{
+    font-size: 22px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: white;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.category{
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 12px 10px;
+}
+
+.authentification{
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 12px 10px;
+    padding-bottom: 0px;
+    padding-top: 17px;
+}
+
+.category:hover:not(.active) {
+    background-color: rgb(152, 193, 41);
+}
+
+.activeCategory{
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 12px 10px;
+
+    background-color: rgb(152, 193, 41);
+}
+
+a{
+    color: inherit;
+    text-decoration: inherit;
+}
+
+
+footer{
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgb(52, 52, 52);
+  color: white;
+  border-top: 5px solid rgb(152, 193, 41);
+  width: 100%;
+  position: absolute;
+}

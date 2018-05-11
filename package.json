@@ -7,7 +7,6 @@
     "repository": "https://github.com/Arveto/arveto-vox",
     "dependencies": {
         "express": "~4.16.3",
-        "socket.io": "~2.1.0",
         "mysql": "~2.15.0",
         "body-parser": "~1.18.2",
         "cookie-parser": "~1.4.3",

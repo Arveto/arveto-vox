@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+	<head>
+
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="../public/css/global.css" />
+		<title>ArvetoVox</title>
+		<link rel="shortcut icon" href="../Projet site/logo.ico">
+
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	</head>
+
+	<body>
+		<header id='header'>
+			<div id="banner">
+				<img src="../public/images/header.png" id="logo">
+				<h2 id="slogan">Une fenêtre sur le monde de demain...</h2>
+			</div>
+
+			<nav id='nav'>
+				<ul id="categories">
+						<% for(let i=0; i<categories.length; i++){ %>
+								 <a class="category" href="category/<%= categories[i].id %>">
+									 <li><%= categories[i].name %></li>
+								 </a>
+						<% } %>
+				</ul>
+
+				<div id="unsigned">
+					<a class="authentification" href="/login">
+						Se connecter
+					</a>
+					<a class="authentification" href="/signup">
+						S'inscrire
+					</a>
+				</div>
+
+				<div id="connected">
+					<a id="username" class="authentification">
+						Bienvenue, user
+					</a>
+					<a id="disconnect" class="authentification">
+						Se déconnecter
+					</a>
+				</div>
+
+			</nav>
+		</header>
+
+
+		<div id="content">
+			Mettre le bordel ici:
+			<ol>
+				<li>Faire de la place</li>
+				<li>Faire de la place</li>
+				<li>Faire de la place</li>
+
+			</ol>
+		</div>
+
+
+		<footer id='footer'>
+			<div id="texte">Un site de:</div>
+				Aurélien DELVAL,
+				 <br>Antoine BLANQUET,
+				 <br>Sarah DOLIMAN,
+				 <br>Jérémy DELAVAQUERIE.
+			</div>
+			<div id="image"><img src="typo.png" width="15%" ></div>
+		</footer>
+	</body>
+
+	<script src="../public/js/home.js"></script>
+</html>

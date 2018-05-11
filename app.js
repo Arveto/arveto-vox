@@ -21,8 +21,7 @@ var database = new constructors.Database(mysql, config);
 
 
     //Other
-var io = require('socket.io').listen(server),
-path = require('path'),
+var path = require('path'),
 cookieParser = require('cookie-parser');
 bodyParser = require('body-parser'),
 hasher = require ('node-hasher');
@@ -45,10 +44,12 @@ app.set('view engine', 'html');
 
     //Testing page
 app.get('/', (req, res) => {
+    console.log("Fetching home page");
     database.query('SELECT name, id FROM categories')
     .then( rows => {
+        console.log("About to render page");
         //Fetches a list of all categories
-        res.render('test.ejs', {categories: rows});
+        res.render('home.ejs', {categories: rows});
     });
 })
 
@@ -65,15 +66,29 @@ app.get('/', (req, res) => {
         res.redirect('/');
     }
     else {
-        res.sendFile(path.join(__dirname+'/write.html'));
+        database.query('SELECT name, id FROM categories')
+        .then( rows => {
+            //Fetches a list of all categories
+            res.render('write.ejs', {categories: rows});
+        });
+
     }
 
 })
 
 app.get('/category/:category', (req, res) => {
-    database.query('SELECT * FROM categories WHERE id=?', req.params.category)
-    .then( rows => {
-        res.render('category.ejs', {category: rows[0]});
+    var category;
+
+    database.query('SELECT * FROM categories WHERE id = ?', req.params.category)
+    .then(rows => {
+        //Get category data from DB
+        category = rows[0];
+
+        return database.query('SELECT * FROM articles WHERE category_id = ?', req.params.category);
+    })
+    .then(rows => {
+        //Get all articles and rendering page
+        res.render('category.ejs', {category: category, articles: rows});
     });
 });
 
@@ -87,20 +102,19 @@ app.post('/signup', (req, res) => {
     //Query
     database.query('INSERT INTO users (username, password) VALUES(?, ?)', [req.body.pseudo, password])
     .then( rows => {
-        if (error) throw error;
-        else{
-            //Set cookies
-            if(req.body.stayConnected == 'on'){
-                res.cookie('pseudo', req.body.pseudo, { httpOnly: false, maxAge: 900000000 });
-                res.cookie('password', password, { httpOnly: false, maxAge: 900000000 });
-            }
-            else{
-                res.cookie('pseudo', req.body.pseudo, { httpOnly: false });
-                res.cookie('password', password, { httpOnly: false });
-            }
 
-            res.redirect('/');
+        //Set cookies
+        if(req.body.stayConnected == 'on'){
+            res.cookie('pseudo', req.body.pseudo, { httpOnly: false, maxAge: 900000000 });
+            res.cookie('password', password, { httpOnly: false, maxAge: 900000000 });
         }
+        else{
+            res.cookie('pseudo', req.body.pseudo, { httpOnly: false });
+            res.cookie('password', password, { httpOnly: false });
+        }
+
+        res.redirect('/');
+
     });
 });
 
@@ -110,10 +124,13 @@ app.post('/login', (req, res) => {
 
     //Query
     let query = 'SELECT id FROM users WHERE (username = ?) AND (password = ?)';
+    console.log("Launching login query");
     database.query(query, [req.body.pseudo, password])
     .then( rows => {
-        if (error) throw error;
-        else if (results[0].id != undefined){
+
+        console.log(rows);
+
+        if (rows.length > 0){
 
             //Set cookies
             if(req.body.stayConnected == 'on'){
@@ -126,6 +143,10 @@ app.post('/login', (req, res) => {
             }
 
             res.redirect('/');
+        }
+
+        else{
+            res.redirect('/login');
         }
     });
 });
