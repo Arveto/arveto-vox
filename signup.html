@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Arveto Vox Testing - Sign Up</title>
+    <title>ArvetoVox - Sign up</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../public/css/auth.css" />
+    <link rel="shortcut icon" href="public/images/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 </head>
 
 <body>
-    <h1>😸 Arveto Vox Testing 😸</h1>
-    <p>
-        Please note thas this page is for backend testing purpose only
-        and won't be present in the final website...
-    </p>
+
+    <a href="/"><img src="../public/images/header.png" id="logo"></a>
 
 
-    <h4>Sign Up:</h4>
-    <form method="post" action="/signup">
-        Pseudo: <input type="text" name="pseudo">
-        <br>
-        Password: <input type="text" name="password">
-        <br>
-        <input type="checkbox" name="stayConnected"> Stay connected
-        <br>
-        <input type="submit" value="Submit">
+    <form method="post" action="/login">
+        <h4>S'inscrire</h4>
+        <div id="item">
+            Pseudo: <input type="text" name="pseudo">
+        </div>
+
+        <div id="item">
+            Mot de passe: <input type="text" name="password">
+        </div>
+
+        <div id="item">
+            <input type="checkbox" name="stayConnected"> Rester connecté
+        </div>
+
+        <div id="button">
+            <input type="submit" value="Valider">
+        </div>
     </form>
 
 </body>
-
 
 </html>

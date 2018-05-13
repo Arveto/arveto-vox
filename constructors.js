@@ -1,7 +1,7 @@
 //This file contains constructors, functions, etc...
 
-//Basically everything where we don't interact with the client to make
-//serer code more readable
+//Basically everything where we don't interact with the client, to make
+//th code more readable
 
 
     //Database connection

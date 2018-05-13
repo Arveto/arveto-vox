@@ -1,0 +1,53 @@
+html, body{
+    font-family: 'Roboto Slab', serif;
+    margin: 0;
+    color: white;
+    height: 100%;
+    margin: 0pt;
+    background: rgb(64, 64, 64);
+}
+
+#logo{
+    width:auto;
+    height: 180px;
+
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 65px;
+    margin-bottom: 80px;
+}
+
+
+h4{
+    font-size: 24px;
+}
+
+form{
+    background: rgb(52, 52, 52);
+    display: flex;
+    flex-direction: column;
+    justify-content:  center;
+    text-align: center;
+    width: 500px;
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    border-radius: 12px;
+}
+
+h4{
+    text-align: center;
+}
+
+#item{
+    text-align: right;
+    width: 400px;
+    margin-bottom: 8px;
+}
+
+#button{
+    text-align: right;
+    width: 400px;
+    margin-bottom: 28px;
+}

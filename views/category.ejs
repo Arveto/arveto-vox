@@ -1,25 +1,140 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Arveto Vox - <%= category.name %> </title>
-    <meta charset="UTF-8">
-</head>
 
-<body>
-    <h1>😸 Arveto Vox Testing 😸</h1>
-    <p>
-        Please note thas this page is for backend testing purpose only
-        and won't be present in the final website...
-    </p>
+<html lang="fr">
 
-    <h3> <%= category.name %> </h3>
+	<head>
 
-    <p>
-        <%= category.description %>
-    </p>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="../public/css/global.css" />
+		<link rel="stylesheet" href="../public/css/category.css" />
+		<title>ArvetoVox - Accueil</title>
+		<link rel="shortcut icon" href="../public/images/favicon.ico">
 
-    <h4>Number of articles: <%= articles.length %></h4>
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	</head>
 
-</body>
+	<body>
+		<header id='header'>
+			<div id="banner">
+				<a href="/" id="logoLink"><img src="../public/images/header.png" id="logo"></a>
+				<h1 id="slogan">Une fenêtre sur le monde de demain...</h1>
+			</div>
 
+			<nav id='nav'>
+				<ul id="categories">
+                    <% for(let i=0; i<categories.length; i++){ %>
+                            <% if(i == current){ %>
+                                <a class="activeCategory" href="../category/<%= i %>">
+                            <% } else{%>
+                                <a class="category" href="../category/<%= i %>">
+                            <% } %>
+                                 <li><%= categories[i].name %></li>
+                             </a>
+                    <% } %>
+				</ul>
+
+				<div id="unsigned">
+					<a class="authentification" href="/login">
+						Se connecter
+					</a>
+					<a class="authentification" href="/signup">
+						S'inscrire
+					</a>
+				</div>
+
+				<div id="connected">
+					<a id="username" class="authentification">
+						Bienvenue, user
+					</a>
+					<a id="disconnect" class="authentification">
+						Se déconnecter
+					</a>
+				</div>
+
+			</nav>
+		</header>
+
+		<h2 id="headline">Articles récents</h2>
+
+		<div id="content">
+
+			<ul id="articlesList">
+
+                <% for(let i=0; i<articles.length; i++){ %>
+
+                <a href="login"><li class="article">
+                    <% if(articles[i].karma > 0) { %>
+                    <div class="karmaPlus">+<%= categories[i].karma %></div>
+
+                    <% } else if(articles[i].karma < 0) { %>
+                    <div class="karmaMinus">-<%= categories[i].karma %></div>
+
+                    <% } else{ %>
+                    <div class="karmaNeutral"><%= categories[i].karma %></div>
+                    <% } %>
+
+                    </articles.length;>
+					<div class="articleData">
+						<h3 class="title">
+							<b>  <%= articles[i].title %> </b>
+						</h3>
+						<div class="author">par <%= articles[i].author_id %> </div>
+					</div>
+				</li></a>
+
+                <% } %>
+
+
+				<li class="article">
+					<div class="karmaMinus">-178</div>
+
+					<div class="articleData">
+						<h3 class="title">
+							<b>Football: L'US Orléans l'emporte 4-0 face au Paris Saint-Germain</b>
+						</h3>
+						<div class="author">par root</div>
+					</div>
+				</li>
+
+			</ul>
+
+			<div id="sidebar">
+				<br />
+				<b><%= categories[current].name %></b>
+				<br />
+				<p id="sidebarText">
+                    <%= categories[current].description %>
+					<br /><b>Parcourez dès maintenant les <%= articles.length %> articles de cette catégorie.</b>
+
+				</p>
+			</div>
+		</div>
+
+
+		<footer id="footer">
+			<div class="footerItem"><b>Un site de:</b>
+				<br>Aurélien DELVAL (lead developper),
+				<br>Antoine BLANQUET (chef de projet),
+				<br>Sarah DOLIMAN (péon),
+				<br>Jérémy DELAVAQUERIE (péon).
+			</div>
+
+			<div class="footerItem">
+				<b>Qui est derrière tout ça?</b>
+				<br />
+				Le site a été créé par 4 étudiants en deuxième année de l'ISTY
+				pour un projet de fin de semestre.
+			</div>
+
+			<div class="footerItem">
+				<b>Retrouvez nous sur toute la toile:</b>
+				<br />
+				<a href="https://github.com/Arveto"><img class="footerIcon" src="../public/images/github.png"></a>
+				<a href="https://twitter.com/ArvetoSoftwares"><img class="footerIcon" src="../public/images/twitter.png"></a>
+
+			</div>
+		</footer>
+	</body>
+
+	<script src="../public/js/home.js"></script>
 </html>

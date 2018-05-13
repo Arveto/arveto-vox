@@ -1,51 +1,88 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Arveto Vox Testing - Write</title>
-    <meta charset="UTF-8">
 
-    <!-- Markdown editor -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-</head>
+<html lang="fr">
 
-<body>
-    <h1>😸 Arveto Vox Testing 😸</h1>
-    <p>
-        Please note thas this page is for backend testing purpose only
-        and won't be present in the final website...
-    </p>
+	<head>
 
-    <h3>Write your article, fella:</h3>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="../public/css/global.css" />
+        <link rel="stylesheet" href="../public/css/write.css" />
+        <title>ArvetoVox - Publish</title>
+		<link rel="shortcut icon" href="../public/images/favicon.ico">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 
-    <form method="post" action="/write">
-        <h4>Titre:</h4>
-        <input type="text" name="title" value="Title"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+        <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    </head>
 
-        <h4>Category</h4>
-        <% for(let i=0; i< categories.length; i++){ %>
-            <input type="radio" name="category"
-            value=<%= categories[i].id %> checked>
-                <%= categories[i].name %>
-            <br>
-        <%}%>
+	<body>
+		<header id='header'>
+			<div id="banner">
+				<a href="/" id="logoLink"><img src="../public/images/header.png" id="logo"></a>
+				<h1 id="slogan">Une fenêtre sur le monde de demain...</h1>
+			</div>
 
-        <textarea>
-        </textarea>
-        <script>
-        var simplemde = new SimpleMDE();
-        </script>
-        <input type="hidden" id="article" value=""/>
+			<nav id='nav'>
+				<ul id="categories">
+						<% for(let i=0; i<categories.length; i++){ %>
+                                <% if(i == current){ %>
+                                    <a class="activeCategory" href="../category/<%= categories[i].id %>">
+                                <% } else{%>
+                                    <a class="category" href="../category/<%= categories[i].id %>">
+                                <% } %>
+                                     <li><%= categories[i].name %></li>
+								 </a>
+						<% } %>
+				</ul>
 
-        <button id="submit">Publish</button>
+				<div id="unsigned">
+					<a class="authentification" href="/login">
+						Se connecter
+					</a>
+					<a class="authentification" href="/signup">
+						S'inscrire
+					</a>
+				</div>
 
-    </form>
+				<div id="connected">
+					<a id="username" class="authentification">
+						Bienvenue, user
+					</a>
+					<a id="disconnect" class="authentification">
+						Se déconnecter
+					</a>
+				</div>
 
-    <button id="showArticle">Show article content in console</button>
+			</nav>
+		</header>
 
+		<h2 id="headline">Publier dans "<%= categories[current].name %>"</h2>
 
-</body>
+		<div id="content">
+            <form id="articleForm" method="post">
+                <b>Titre:</b>
+                <input type="text" name="title" id="title">
+                 <br />
 
-<script src=public/js/write.js"></script>
+                 <b>Contenu:</b>
+                <textarea id="article"></textarea>
+                <script>
+                    var simplemde = new SimpleMDE({ element: document.getElementById("article") });
+                    simplemde.value("Ecrivez votre article ici =) ...")
+                </script>
+                <input type="text" name="text" id="text" class="hiddenElement" />
 
+                <input type="text" name="authorPseudo" id="authorPseudo" class="hiddenElement" />
+                <input type="text" name="authorPass" id="authorPass" class="hiddenElement" />
+                <input type="text" name="category" id="category" value= "<%= categories[current].id %>" class="hiddenElement" />
+
+                <button id="publish" >Publier!</button>
+
+            </form>
+
+		</div>
+
+	</body>
+
+	<script src="../public/js/write.js"></script>
 </html>

@@ -1,0 +1,28 @@
+#headline{
+    margin-left: 25px;
+}
+
+#content{
+    margin-left: 25px;
+    margin-right: 80px;
+}
+
+.CodeMirror, .CodeMirror-scroll {
+	min-height: 200px;
+}
+
+#article{
+    margin-top: 20px;
+}
+
+.hiddenElement{
+    display: none;
+}
+
+#title{
+    width: 99.7%;
+    border: 1px solid rgb(52, 52, 52, 0.25);
+    border-radius: 4px;
+    font-size: 18px;
+    margin-bottom: 15px;
+}

@@ -15,6 +15,7 @@ header{
     background-color: rgb(52, 52, 52);
     top: 0;
     width: 100%;
+    z-index: 1;
 }
 
 #content{
@@ -30,11 +31,10 @@ header{
     width:auto;
     height: 140px;
 
-    -webkit-filter: drop-shadow(3px 3px 0 white)
-                    drop-shadow(-3px -3px 0 white);
-    filter: drop-shadow(3px 3px 0 white)
-            drop-shadow(-3px -3px 0 white);
 
+}
+
+#logoLink{
     margin-top: 10px;
     margin-left: 2%;
     margin-right: 5%;
@@ -72,16 +72,6 @@ nav{
     padding: 12px 10px;
 }
 
-.authentification{
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 12px 10px;
-    padding-bottom: 0px;
-    padding-top: 17px;
-}
-
 .category:hover:not(.active) {
     background-color: rgb(152, 193, 41);
 }
@@ -96,6 +86,16 @@ nav{
     background-color: rgb(152, 193, 41);
 }
 
+.authentification{
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 12px 10px;
+    padding-bottom: 0px;
+    padding-top: 17px;
+}
+
 a{
     color: inherit;
     text-decoration: inherit;
@@ -104,10 +104,25 @@ a{
 
 footer{
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   background-color: rgb(52, 52, 52);
   color: white;
   border-top: 5px solid rgb(152, 193, 41);
   width: 100%;
   position: absolute;
+  z-index:1;
+}
+
+.footerItem{
+    width: 300px;
+    margin-top: 12px;
+    margin-bottom: 5px;
+}
+
+
+.footerIcon{
+    width: 50px;
+    height: auto;
+    margin-top: 5px;
+    margin-right: 10px;
 }

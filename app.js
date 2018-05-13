@@ -42,53 +42,57 @@ app.set('view engine', 'html');
 
 //***Routes***
 
-    //Testing page
+//Home
 app.get('/', (req, res) => {
-    console.log("Fetching home page");
     database.query('SELECT name, id FROM categories')
     .then( rows => {
-        console.log("About to render page");
         //Fetches a list of all categories
         res.render('home.ejs', {categories: rows});
     });
 })
 
+//Signup
 .get('/signup', (req, res) => {
    res.sendFile(path.join(__dirname+'/signup.html'));
 })
 
+//Login
 .get('/login', (req, res) => {
    res.sendFile(path.join(__dirname+'/login.html'));
 })
 
-.get('/write', (req, res) => {
+//To publish an article
+.get('/write/:category', (req, res) => {
     if(req.cookies.password == undefined){
         res.redirect('/');
     }
     else {
         database.query('SELECT name, id FROM categories')
         .then( rows => {
-            //Fetches a list of all categories
-            res.render('write.ejs', {categories: rows});
+            //Fetches a list of all categories, with the id of the one we want to publish in
+            res.render('write.ejs', {categories: rows, current: req.params.category});
         });
 
     }
 
 })
 
+//To browse a category
 app.get('/category/:category', (req, res) => {
     var category;
 
-    database.query('SELECT * FROM categories WHERE id = ?', req.params.category)
+    database.query('SELECT * FROM categories', req.params.category)
     .then(rows => {
         //Get category data from DB
-        category = rows[0];
+        categories = rows;
+        //TODO Fix that f* request
+        let query ='SELECT u.pseudo, a.* FROM articles a INNER JOIN u users ON a.author_id = u.id WHERE a.category = ? ORDER BY date DESC';
 
-        return database.query('SELECT * FROM articles WHERE category_id = ?', req.params.category);
+        return database.query(query, rows[req.params.category].id);
     })
     .then(rows => {
         //Get all articles and rendering page
-        res.render('category.ejs', {category: category, articles: rows});
+        res.render('category.ejs', {categories: categories, articles: rows, current: req.params.category});
     });
 });
 
@@ -96,6 +100,7 @@ app.get('/category/:category', (req, res) => {
 
 //***Forms***
 
+//Signup
 app.post('/signup', (req, res) => {
     let password = hasher('sha512', req.body.password);
 
@@ -103,7 +108,7 @@ app.post('/signup', (req, res) => {
     database.query('INSERT INTO users (username, password) VALUES(?, ?)', [req.body.pseudo, password])
     .then( rows => {
 
-        //Set cookies
+        //Set cookies (expiration date changes)
         if(req.body.stayConnected == 'on'){
             res.cookie('pseudo', req.body.pseudo, { httpOnly: false, maxAge: 900000000 });
             res.cookie('password', password, { httpOnly: false, maxAge: 900000000 });
@@ -119,16 +124,14 @@ app.post('/signup', (req, res) => {
 });
 
 
+//Login
 app.post('/login', (req, res) => {
     let password = hasher('sha512', req.body.password);
 
     //Query
     let query = 'SELECT id FROM users WHERE (username = ?) AND (password = ?)';
-    console.log("Launching login query");
     database.query(query, [req.body.pseudo, password])
     .then( rows => {
-
-        console.log(rows);
 
         if (rows.length > 0){
 
@@ -148,6 +151,35 @@ app.post('/login', (req, res) => {
         else{
             res.redirect('/login');
         }
+    });
+});
+
+
+//Publish an article
+app.post('/write/:category', (req, res) => {
+    console.log("Les problèmes commencent =)");
+    console.log("authorPseudo="+req.body.authorPseudo);
+    console.log("authorPassword="+req.body.authorPass);
+
+    //We verify that the user exists, and get its ID
+    let query = 'SELECT id FROM users WHERE (username = ?) AND (password = ?)';
+    database.query(query, [req.body.authorPseudo, req.body.authorPass])
+    .then(rows => {
+        console.log("Résultat 1= "+rows);
+        if(rows.length == 0){
+            return
+        }
+
+        var authorId = rows[0].id;
+        console.log("Id du gars= "+authorId);
+        var numCat = parseInt(req.body.category);
+
+        let query = 'INSERT INTO articles (title, author_id, content, category_id) VALUES (?, ?, ?, ?)';
+        return database.query(query, [req.body.title, authorId, req.body.text, numCat]);
+    })
+    .then(rows =>{
+        console.log('Terminé');
+        res.redirect('/');
     });
 });
 

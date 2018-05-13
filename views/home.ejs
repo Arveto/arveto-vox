@@ -6,8 +6,9 @@
 
 		<meta charset="utf-8"/>
 		<link rel="stylesheet" href="../public/css/global.css" />
-		<title>ArvetoVox</title>
-		<link rel="shortcut icon" href="../Projet site/logo.ico">
+		<link rel="stylesheet" href="../public/css/category.css" />
+		<title>ArvetoVox - Accueil</title>
+		<link rel="shortcut icon" href="../public/images/favicon.ico">
 
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 	</head>
@@ -15,8 +16,8 @@
 	<body>
 		<header id='header'>
 			<div id="banner">
-				<img src="../public/images/header.png" id="logo">
-				<h2 id="slogan">Une fenêtre sur le monde de demain...</h2>
+				<a href="/" id="logoLink"><img src="../public/images/header.png" id="logo"></a>
+				<h1 id="slogan">Une fenêtre sur le monde de demain...</h1>
 			</div>
 
 			<nav id='nav'>
@@ -49,26 +50,74 @@
 			</nav>
 		</header>
 
+		<h2 id="headline">Articles récents</h2>
 
 		<div id="content">
-			Mettre le bordel ici:
-			<ol>
-				<li>Faire de la place</li>
-				<li>Faire de la place</li>
-				<li>Faire de la place</li>
 
-			</ol>
+			<ul id="articlesList">
+
+				<a href="login"><li class="article">
+					<div class="karmaPlus">+89</div>
+
+					<div class="articleData">
+						<h3 class="title">
+							<b>Ariège: Ivre, il dépose sa candidature de développeur PHP</b>
+						</h3>
+						<div class="author">par xXx_DarkSasukedu78_xXx</div>
+					</div>
+				</li></a>
+
+				<li class="article">
+					<div class="karmaMinus">-178</div>
+
+					<div class="articleData">
+						<h3 class="title">
+							<b>Football: L'US Orléans l'emporte 4-0 face au Paris Saint-Germain</b>
+						</h3>
+						<div class="author">par root</div>
+					</div>
+				</li>
+
+			</ul>
+
+			<div id="sidebar">
+				<br />
+				<b>Bienvenue sur ArvetoVox!</b>
+				<br />
+				<p id="sidebarText">
+					Bienvenue sur ArvetoVox, le site de journalisme "open-source".
+					Ici, chacun est libre d'écrire un article sur le sujet de son choix.
+					Chaque article est ensuite soumis au vote de la communauté pour vous garantir
+					sa qualité et sa véracité.
+					<br />Bonne lecture!
+
+				</p>
+			</div>
 		</div>
 
 
-		<footer id='footer'>
-			<div id="texte">Un site de:</div>
-				Aurélien DELVAL,
-				 <br>Antoine BLANQUET,
-				 <br>Sarah DOLIMAN,
-				 <br>Jérémy DELAVAQUERIE.
+		<footer id="footer">
+			<div class="footerItem"><b>Un site de:</b>
+				<br>Aurélien DELVAL (lead developper),
+				<br>Antoine BLANQUET (chef de projet),
+				<br>Sarah DOLIMAN (péon),
+				<br>Jérémy DELAVAQUERIE (péon).
 			</div>
-			<div id="image"><img src="typo.png" width="15%" ></div>
+
+			<div class="footerItem">
+				<b>Qui est derrière tout ça?</b>
+				<br />
+				Le site a été créé par 4 étudiants en deuxième année de l'ISTY
+				pour un projet de fin de semestre.
+			</div>
+
+			<div class="footerItem">
+				<b>Retrouvez nous sur toute la toile:</b>
+				<br />
+				<a href="https://github.com/Arveto"><img class="footerIcon" src="../public/images/github.png"></a>
+				<a href="https://twitter.com/ArvetoSoftwares"><img class="footerIcon" src="../public/images/twitter.png"></a>
+
+			</div>
 		</footer>
 	</body>
 
