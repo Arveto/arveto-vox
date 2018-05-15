@@ -11,6 +11,7 @@
         "body-parser": "~1.18.2",
         "cookie-parser": "~1.4.3",
         "node-hasher": "0.0.3",
-        "ejs": "~2.5.8"
+        "ejs": "~2.5.8",
+        "markdown": "~0.5.0 "
     }
 }

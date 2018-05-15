@@ -19,6 +19,8 @@ var config = {
 
 var database = new constructors.Database(mysql, config);
 
+var markdown = require( "markdown" ).markdown;
+
 
     //Other
 var path = require('path'),
@@ -37,17 +39,21 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 
-
-
-
 //***Routes***
 
 //Home
 app.get('/', (req, res) => {
-    database.query('SELECT name, id FROM categories')
+    var categories;
+    database.query('SELECT name, id FROM categories ORDER BY id ASC')
     .then( rows => {
         //Fetches a list of all categories
-        res.render('home.ejs', {categories: rows});
+        categories = rows;
+
+        return database.query('SELECT users.username, articles.* FROM users INNER JOIN articles ON users.id = articles.author_id ORDER BY date DESC;');
+    })
+    .then( rows => {
+
+        res.render('home.ejs', {categories: categories, articles: rows});
     });
 })
 
@@ -67,33 +73,82 @@ app.get('/', (req, res) => {
         res.redirect('/');
     }
     else {
-        database.query('SELECT name, id FROM categories')
+        database.query('SELECT name, id FROM categories ORDER BY id ASC')
         .then( rows => {
             //Fetches a list of all categories, with the id of the one we want to publish in
-            res.render('write.ejs', {categories: rows, current: req.params.category});
+
+
+            let current = {};
+            for(let i=0; i< rows.length; i++){
+                if(req.params.category == rows[i].id){
+                    current = rows[i];
+                    break;
+                }
+            }
+
+
+            res.render('write.ejs', {categories: rows, current: current});
         });
-
     }
-
 })
 
 //To browse a category
-app.get('/category/:category', (req, res) => {
-    var category;
+.get('/category/:category', (req, res) => {
+    var categories;
 
-    database.query('SELECT * FROM categories', req.params.category)
+    database.query('SELECT * FROM categories ORDER BY id ASC')
     .then(rows => {
         //Get category data from DB
         categories = rows;
-        //TODO Fix that f* request
-        let query ='SELECT u.pseudo, a.* FROM articles a INNER JOIN u users ON a.author_id = u.id WHERE a.category = ? ORDER BY date DESC';
 
-        return database.query(query, rows[req.params.category].id);
+
+        let query ='SELECT users.username, articles.* FROM users INNER JOIN articles ON users.id = articles.author_id WHERE articles.category_id = ? ORDER BY date DESC;';
+        return database.query(query, req.params.category);
     })
     .then(rows => {
         //Get all articles and rendering page
-        res.render('category.ejs', {categories: categories, articles: rows, current: req.params.category});
+        let current = {};
+        for(let i=0; i< categories.length; i++){
+            if(req.params.category == categories[i].id){
+                current = categories[i];
+                break;
+            }
+        }
+
+        res.render('category.ejs', {categories: categories, articles: rows, current: current});
     });
+})
+
+//To read an article
+.get('/article/:id', (req, res) => {
+
+    var article = {};
+    var comments = {};
+
+    //let query = 'SELECT * FROM articles WHERE id = ?;';
+    let query = 'SELECT users.username, articles.* FROM users INNER JOIN articles ON users.id = articles.author_id WHERE articles.id = ?';
+
+    database.query(query, req.params.id)
+    .then(rows => {
+
+        article = rows[0];
+
+        let query ='SELECT users.username, comments.* FROM users INNER JOIN comments ON users.id = comments.author_id WHERE comments.article_id = ? ORDER BY date DESC;';
+
+        return database.query(query, article.id);
+    })
+    .then(rows => {
+        comments = rows;
+        return database.query('SELECT * FROM categories ORDER BY id ASC');
+    })
+    .then(rows => {
+        res.render('article.ejs', {categories: rows, current: article.category_id, article: article, comments: comments});
+    });
+})
+
+//Error 404 (keep as last route)
+.get('*', function(req, res){
+  res.sendFile(path.join(__dirname+'/404.html'));
 });
 
 
@@ -121,11 +176,11 @@ app.post('/signup', (req, res) => {
         res.redirect('/');
 
     });
-});
+})
 
 
 //Login
-app.post('/login', (req, res) => {
+.post('/login', (req, res) => {
     let password = hasher('sha512', req.body.password);
 
     //Query
@@ -152,36 +207,72 @@ app.post('/login', (req, res) => {
             res.redirect('/login');
         }
     });
-});
+})
 
 
 //Publish an article
-app.post('/write/:category', (req, res) => {
-    console.log("Les problèmes commencent =)");
-    console.log("authorPseudo="+req.body.authorPseudo);
-    console.log("authorPassword="+req.body.authorPass);
+.post('/write/:category', (req, res) => {
+
+    var text = markdown.toHTML(req.body.text);
 
     //We verify that the user exists, and get its ID
     let query = 'SELECT id FROM users WHERE (username = ?) AND (password = ?)';
     database.query(query, [req.body.authorPseudo, req.body.authorPass])
     .then(rows => {
-        console.log("Résultat 1= "+rows);
         if(rows.length == 0){
             return
         }
 
         var authorId = rows[0].id;
-        console.log("Id du gars= "+authorId);
         var numCat = parseInt(req.body.category);
 
         let query = 'INSERT INTO articles (title, author_id, content, category_id) VALUES (?, ?, ?, ?)';
-        return database.query(query, [req.body.title, authorId, req.body.text, numCat]);
+        return database.query(query, [req.body.title, authorId, text, numCat]);
     })
     .then(rows =>{
-        console.log('Terminé');
         res.redirect('/');
     });
-});
+})
 
+
+//Vote an article
+.post('/vote', (req, res) => {
+    let query;
+    if(req.body.voteType != undefined){
+        query = 'UPDATE articles SET karma=karma+1 WHERE id=?';
+    }
+    else{
+        query = 'UPDATE articles SET karma=karma-1 WHERE id=?';
+    }
+
+    console.log('query = '+query);
+
+    database.query(query, [req.body.id], () => {
+        res.redirect("/article/"+req.body.id);
+    });
+})
+
+
+//Comment an article
+.post('/article/:id', (req, res) => {
+
+    //We verify that the user exists, and get its ID
+    let query = 'SELECT id FROM users WHERE (username = ?) AND (password = ?)';
+    database.query(query, [req.body.authorPseudo, req.body.authorPass])
+    .then(rows => {
+        if(rows.length == 0){
+            return
+        }
+
+        var authorId = rows[0].id;
+        var numId = parseInt(req.body.articleId);
+
+        let query = 'INSERT INTO comments (article_id, author_id, content) VALUES (?, ?, ?)';
+        return database.query(query, [numId, authorId, req.body.commentText])
+    })
+    .then(rows => {
+        res.redirect('..');
+    });
+});
 
 server.listen(8080);

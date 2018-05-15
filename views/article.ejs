@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+	<head>
+
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="../public/css/global.css" />
+        <link rel="stylesheet" href="../public/css/article.css" />
+        <title>ArvetoVox - <%= article.title%> </title>
+		<link rel="shortcut icon" href="../public/images/favicon.ico">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    </head>
+
+	<body>
+		<header id='header'>
+			<div id="banner">
+				<a href="/" id="logoLink"><img src="../public/images/header.png" id="logo"></a>
+				<h1 id="slogan">Une fenêtre sur le monde de demain...</h1>
+			</div>
+
+			<nav id='nav'>
+				<ul id="categories">
+						<% for(let i=0; i<categories.length; i++){ %>
+                                <% if(categories[i].id == current){ %>
+                                    <a class="activeCategory" href="../category/<%= categories[i].id %>">
+                                <% } else{%>
+                                    <a class="category" href="../category/<%= categories[i].id %>">
+                                <% } %>
+                                     <li><%= categories[i].name %></li>
+								 </a>
+						<% } %>
+				</ul>
+
+				<div id="unsigned">
+					<a class="authentification" href="/login">
+						Se connecter
+					</a>
+					<a class="authentification" href="/signup">
+						S'inscrire
+					</a>
+				</div>
+
+				<div id="connected">
+					<a id="username" class="authentification">
+						Bienvenue, user
+					</a>
+					<a id="disconnect" class="authentification">
+						Se déconnecter
+					</a>
+				</div>
+
+			</nav>
+		</header>
+
+		<div id="headline">
+
+			<div id="articleKarma">
+				<div id="karmaPlus">+</div>
+				<div id="karma"><%= article.karma %></div>
+				<div id="karmaMinus">-</div>
+			</div>
+
+
+            <h2 id="title"><%= article.title %>
+            <br /> <div id="author">Par <%= article.username %></div>
+			</h2>
+
+			<form id="vote" action="../vote" method="post">
+				<input type="text" value="<%= article.id %>" name="id" class="hiddenElement">
+				<input type="checkbox" id="voteType" name ="voteType" class="hiddenElement">
+			</form>
+
+        </div>
+
+
+        <div id="content">
+            <div id="article">
+				<%= article.content %>
+			</div>
+
+
+			<ul id="comments">
+                <h3 id="commentHead">Commentaires</h3>
+
+
+
+                <% for(let i=0; i<comments.length; i++){ %>
+
+                    <ul class="comment">
+                        <div class="commentVotes">
+							<div class = "upvote">+</div>
+
+
+							<div class="karma"> <%= comments[i].karma %> </div>
+
+							<div class = "downvote">-</div>
+						</div>
+                        <div class="commentContent">
+                            <b><%= comments[i].username %>: </b> <%= comments[i].content %>
+                        </div>
+                    </ul>
+
+                <% } %>
+
+            </ul>
+
+			<form id="commentForm" method="post">
+				<textarea id="commentTextarea">Ajoutez votre commentaire =)</textarea>
+				<input id="commentText" name="commentText" type="textarea" class="hiddenElement"/>
+				<br />
+				<button id="commentButton">Valider</button>
+
+				<input id="authorPass" name="authorPass" type="text" class="hiddenElement" />
+				<input id="authorPseudo" name="authorPseudo" type="text" class="hiddenElement" />
+				<input id="articleId" name="articleId"  type="text"  value= "<%= article.id %>" class="hiddenElement" />
+			</form>
+
+        </div>
+
+		<footer id="footer">
+			<div class="footerItem"><b>Un site de:</b>
+				<br>Aurélien DELVAL (lead developper),
+				<br>Antoine BLANQUET (chef de projet),
+				<br>Sarah DOLIMAN (DRH),
+				<br>Jérémy DELAVAQUERIE (trésorier).
+			</div>
+
+			<div class="footerItem">
+				<b>Qui est derrière tout ça?</b>
+				<br />
+				Le site a été créé par 4 étudiants en deuxième année de l'ISTY
+				pour un projet de fin de semestre.
+			</div>
+
+			<div class="footerItem">
+				<b>Retrouvez nous sur toute la toile:</b>
+				<br />
+				<a href="https://github.com/Arveto"><img class="footerIcon" src="../public/images/github.png"></a>
+				<a href="https://twitter.com/ArvetoSoftwares"><img class="footerIcon" src="../public/images/twitter.png"></a>
+
+			</div>
+		</footer>
+
+    </body>
+
+    <script src="../public/js/home.js"></script>
+	<script src="../public/js/article.js"></script>
+</html>

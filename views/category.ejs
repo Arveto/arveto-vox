@@ -7,7 +7,7 @@
 		<meta charset="utf-8"/>
 		<link rel="stylesheet" href="../public/css/global.css" />
 		<link rel="stylesheet" href="../public/css/category.css" />
-		<title>ArvetoVox - Accueil</title>
+		<title>ArvetoVox - <%= current.name %></title>
 		<link rel="shortcut icon" href="../public/images/favicon.ico">
 
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
@@ -23,10 +23,10 @@
 			<nav id='nav'>
 				<ul id="categories">
                     <% for(let i=0; i<categories.length; i++){ %>
-                            <% if(i == current){ %>
-                                <a class="activeCategory" href="../category/<%= i %>">
+                            <% if(categories[i].id == current.id){ %>
+                                <a class="activeCategory" href="../category/<%= categories[i].id %>">
                             <% } else{%>
-                                <a class="category" href="../category/<%= i %>">
+                                <a class="category" href="../category/<%= categories[i].id %>">
                             <% } %>
                                  <li><%= categories[i].name %></li>
                              </a>
@@ -62,15 +62,15 @@
 
                 <% for(let i=0; i<articles.length; i++){ %>
 
-                <a href="login"><li class="article">
+                <a href="../article/<%=  articles[i].id %>"><li class="article">
                     <% if(articles[i].karma > 0) { %>
-                    <div class="karmaPlus">+<%= categories[i].karma %></div>
+                    <div class="karmaPlus">+<%= articles[i].karma %></div>
 
                     <% } else if(articles[i].karma < 0) { %>
-                    <div class="karmaMinus">-<%= categories[i].karma %></div>
+                    <div class="karmaMinus"><%= articles[i].karma %></div>
 
                     <% } else{ %>
-                    <div class="karmaNeutral"><%= categories[i].karma %></div>
+                    <div class="karmaNeutral">+<%= articles[i].karma %></div>
                     <% } %>
 
                     </articles.length;>
@@ -78,33 +78,27 @@
 						<h3 class="title">
 							<b>  <%= articles[i].title %> </b>
 						</h3>
-						<div class="author">par <%= articles[i].author_id %> </div>
+						<div class="author">par <%= articles[i].username %> </div>
 					</div>
 				</li></a>
 
                 <% } %>
 
-
-				<li class="article">
-					<div class="karmaMinus">-178</div>
-
-					<div class="articleData">
-						<h3 class="title">
-							<b>Football: L'US Orléans l'emporte 4-0 face au Paris Saint-Germain</b>
-						</h3>
-						<div class="author">par root</div>
-					</div>
-				</li>
+				<% if(articles.length == 0){ %>
+					 <b>Wow! Such empty!
+					 <br />t(。>_<。)ށ</b>
+				 <%}%>
 
 			</ul>
 
 			<div id="sidebar">
 				<br />
-				<b><%= categories[current].name %></b>
+				<b><%= current.name %></b>
 				<br />
 				<p id="sidebarText">
-                    <%= categories[current].description %>
-					<br /><b>Parcourez dès maintenant les <%= articles.length %> articles de cette catégorie.</b>
+                    <%= current.description %>
+					<br /><br /><b>Parcourez dès maintenant les <%= articles.length %> articles de cette catégorie,
+					ou <a href="/write/<%= current.id %>" id="writeLink"> écrivez le votre</a></b>.
 
 				</p>
 			</div>
@@ -115,8 +109,8 @@
 			<div class="footerItem"><b>Un site de:</b>
 				<br>Aurélien DELVAL (lead developper),
 				<br>Antoine BLANQUET (chef de projet),
-				<br>Sarah DOLIMAN (péon),
-				<br>Jérémy DELAVAQUERIE (péon).
+				<br>Sarah DOLIMAN (DRH),
+				<br>Jérémy DELAVAQUERIE (trésorier).
 			</div>
 
 			<div class="footerItem">

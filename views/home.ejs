@@ -56,29 +56,37 @@
 
 			<ul id="articlesList">
 
-				<a href="login"><li class="article">
-					<div class="karmaPlus">+89</div>
+				<% for(let i=0; i<articles.length; i++){ %>
 
+                <a href="../article/<%=  articles[i].id %>"><li class="article">
+                    <% if(articles[i].karma > 0) { %>
+                    <div class="karmaPlus">+<%= articles[i].karma %></div>
+
+                    <% } else if(articles[i].karma < 0) { %>
+                    <div class="karmaMinus"><%= articles[i].karma %></div>
+
+                    <% } else{ %>
+                    <div class="karmaNeutral">+<%= articles[i].karma %></div>
+                    <% } %>
+
+                    </articles.length;>
 					<div class="articleData">
 						<h3 class="title">
-							<b>Ariège: Ivre, il dépose sa candidature de développeur PHP</b>
+							<b>  <%= articles[i].title %> </b>
 						</h3>
-						<div class="author">par xXx_DarkSasukedu78_xXx</div>
+						<div class="author">par <%= articles[i].username %> </div>
 					</div>
 				</li></a>
 
-				<li class="article">
-					<div class="karmaMinus">-178</div>
+                <% } %>
 
-					<div class="articleData">
-						<h3 class="title">
-							<b>Football: L'US Orléans l'emporte 4-0 face au Paris Saint-Germain</b>
-						</h3>
-						<div class="author">par root</div>
-					</div>
-				</li>
+				<% if(articles.length == 0){ %>
+					 <b>Wow! Such empty!
+					 <br />t(。>_<。)ށ</b>
+				 <%}%>
 
 			</ul>
+
 
 			<div id="sidebar">
 				<br />
@@ -100,8 +108,8 @@
 			<div class="footerItem"><b>Un site de:</b>
 				<br>Aurélien DELVAL (lead developper),
 				<br>Antoine BLANQUET (chef de projet),
-				<br>Sarah DOLIMAN (péon),
-				<br>Jérémy DELAVAQUERIE (péon).
+				<br>Sarah DOLIMAN (DRH),
+				<br>Jérémy DELAVAQUERIE (trésorier).
 			</div>
 
 			<div class="footerItem">

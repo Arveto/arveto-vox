@@ -25,7 +25,7 @@
 			<nav id='nav'>
 				<ul id="categories">
 						<% for(let i=0; i<categories.length; i++){ %>
-                                <% if(i == current){ %>
+                                <% if(categories[i].id == current.id){ %>
                                     <a class="activeCategory" href="../category/<%= categories[i].id %>">
                                 <% } else{%>
                                     <a class="category" href="../category/<%= categories[i].id %>">
@@ -56,7 +56,7 @@
 			</nav>
 		</header>
 
-		<h2 id="headline">Publier dans "<%= categories[current].name %>"</h2>
+		<h2 id="headline">Publier dans "<%= current.name %>"</h2>
 
 		<div id="content">
             <form id="articleForm" method="post">
@@ -74,7 +74,7 @@
 
                 <input type="text" name="authorPseudo" id="authorPseudo" class="hiddenElement" />
                 <input type="text" name="authorPass" id="authorPass" class="hiddenElement" />
-                <input type="text" name="category" id="category" value= "<%= categories[current].id %>" class="hiddenElement" />
+                <input type="text" name="category" id="category" value= "<%= current.id %>" class="hiddenElement" />
 
                 <button id="publish" >Publier!</button>
 
