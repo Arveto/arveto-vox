@@ -64,7 +64,11 @@ var publish = document.getElementById("publish");
 publish.addEventListener('click', () => {
     let text = simplemde.value();
 
+    text = text.replace(/(\r\n|\n|\r)/gm, "<br>");
+
     let numCat = parseInt(document.getElementById("category").value);
+
+    let title = document.getElementById("text").value;
 
     document.getElementById("text").value = text;
     document.getElementById("authorPseudo").value = getCookie('pseudo');

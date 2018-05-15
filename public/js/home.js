@@ -41,31 +41,15 @@ else{
 }
 
 
-    //Dynamic header
-document.addEventListener('scroll', (banner, display, categories, position) =>{
-    console.log('Scroll!');
-    var banner = document.getElementById('banner');
-    var header = document.getElementById('header');
+    //Sticky header
+var header = document.getElementById("nav");
+var sticky = header.offsetTop;
 
-    if(window.scrollY >= 150){
-        banner.style.display = 'none';
-        header.style.position = 'fixed';
+document.addEventListener('scroll', () =>{
+    if (window.pageYOffset >= sticky){
+        header.classList.add("sticky");
     }
     else{
-        banner.style.display = '';
-        header.style.position = '';
-
-        console.log('Redisplaying banner?');
+        header.classList.remove("sticky");
     }
-
 });
-
-
-    //Dynamic footer
-var footer = document.getElementById('footer');
-console.log(footer.offsetTop);
-console.log(window.innerHeight);
-if(footer.offsetTop < window.innerHeight){
-    footer.style.bottom = "0px";
-    footer.style.position = "absolute";
-}

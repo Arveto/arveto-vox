@@ -1,10 +1,16 @@
-html, body{
+body{
     font-family: 'Roboto Slab', serif;
-    margin: 0;
     color: rgb(52, 52, 52);
-    height: 100%;
-    margin: 0pt;
+
+    min-height:100%;
+    margin:0;
+    position:relative;
 }
+
+html{
+  height:100%;
+}
+
 
 @font-face {
  font-family: "Old London";
@@ -13,13 +19,20 @@ html, body{
 
 header{
     background-color: rgb(52, 52, 52);
-    top: 0;
     width: 100%;
     z-index: 1;
 }
 
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgb(52, 52, 52);
+}
+
 #content{
     height:auto;
+    padding-bottom: 150px;
 }
 
 #banner{
@@ -103,14 +116,25 @@ a{
 
 
 footer{
-  display: flex;
-  justify-content: space-around;
-  background-color: rgb(52, 52, 52);
-  color: white;
-  border-top: 5px solid rgb(152, 193, 41);
-  width: 100%;
-  position: absolute;
-  z-index:1;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(52, 52, 52);
+    color: white;
+    border-top: 5px solid rgb(152, 193, 41);
+
+    z-index:1;
+    font-size: 14px;
+    margin-top: 20px;
+
+    position: absolute;
+    bottom:0;
+    width:100%
+
+}
+
+.stickyFooter{
+    bottom: 0px;
+    position: absolute;
 }
 
 .footerItem{
