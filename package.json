@@ -12,6 +12,10 @@
         "cookie-parser": "~1.4.3",
         "node-hasher": "0.0.3",
         "ejs": "~2.5.8",
-        "markdown": "~0.5.0 "
+        "markdown": "~0.5.0 ",
+        "pm2": "~2.10.4"
+    },
+    "scripts": {
+        "start": "pm2 start app.js"
     }
 }

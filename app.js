@@ -9,12 +9,13 @@ var express = require('express'),
 var constructors = require('./constructors.js');
 
     //DB Connection
+//Fuck security, this is an open source website :p
 var mysql = require('mysql');
 var config = {
-    host     : 'localhost',
-    user     : 'root',
-    password : 'root',
-    database : 'arvetovox'
+    host     : 'lt80glfe2gj8p5n2.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
+    user     : 'kvynzd2vesxy2k3u',
+    password : 'ff6kr5tq5oqn503c ',
+    database : 'dbdscf07r64azis6'
 };
 
 var database = new constructors.Database(mysql, config);
@@ -52,7 +53,6 @@ app.get('/', (req, res) => {
         return database.query('SELECT users.username, articles.* FROM users INNER JOIN articles ON users.id = articles.author_id ORDER BY date DESC;');
     })
     .then( rows => {
-
         res.render('home.ejs', {categories: categories, articles: rows});
     });
 })
