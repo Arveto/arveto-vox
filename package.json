@@ -16,6 +16,6 @@
         "pm2": "~2.10.4"
     },
     "scripts": {
-        "start": "pm2 start app.js"
+        "start": "node ./node_modules/.bin/pm2-runtime start app.js"
     }
 }
