@@ -14,7 +14,7 @@ var mysql = require('mysql');
 var config = {
     host     : 'lt80glfe2gj8p5n2.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
     user     : 'kvynzd2vesxy2k3u',
-    password : 'ff6kr5tq5oqn503c ',
+    password : 'ff6kr5tq5oqn503c',
     database : 'dbdscf07r64azis6'
 };
 
